@@ -226,7 +226,7 @@ int main() {
       mostrarPila();
       break;
     case 0:
-      cout << "Saliendo...\n";
+      cout << "GRACIAS POR USAR FINPROC..\n";
       break;
     default:
       cout << "Opcion no valida.\n";
