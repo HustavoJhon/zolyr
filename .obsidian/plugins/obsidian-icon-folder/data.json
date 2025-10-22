@@ -1,0 +1,114 @@
+{
+  "settings": {
+    "migrated": 6,
+    "iconPacksPath": ".obsidian/icons",
+    "fontSize": 16,
+    "emojiStyle": "native",
+    "iconColor": null,
+    "recentlyUsedIcons": [
+      "LiLayoutGrid",
+      "LiShield",
+      "LiCamera",
+      "LiPresentation",
+      "LiImage"
+    ],
+    "recentlyUsedIconsSize": 5,
+    "rules": [],
+    "extraMargin": {
+      "top": 0,
+      "right": 4,
+      "bottom": 0,
+      "left": 0
+    },
+    "iconInTabsEnabled": false,
+    "iconInTitleEnabled": false,
+    "iconInTitlePosition": "above",
+    "iconInFrontmatterEnabled": false,
+    "iconInFrontmatterFieldName": "icon",
+    "iconColorInFrontmatterFieldName": "iconColor",
+    "iconsBackgroundCheckEnabled": false,
+    "iconsInNotesEnabled": true,
+    "iconsInLinksEnabled": true,
+    "iconIdentifier": ":",
+    "lucideIconPackType": "native",
+    "debugMode": false,
+    "useInternalPlugins": false
+  },
+  "README.md": "LiScrollText",
+  "src": {
+    "iconName": "LiCode",
+    "iconColor": "#0077ff"
+  },
+  "include": {
+    "iconName": "LiPuzzle",
+    "iconColor": "#009688"
+  },
+  "build": {
+    "iconName": "LiCog",
+    "iconColor": "#607d8b"
+  },
+  "tests": {
+    "iconName": "LiFlaskConical",
+    "iconColor": "#8e24aa"
+  },
+  "docs": {
+    "iconName": "LiBook",
+    "iconColor": "#1e88e5"
+  },
+  "docs/report": {
+    "iconName": "LiFileText",
+    "iconColor": "#4caf50"
+  },
+  "docs/manual": {
+    "iconName": "LiClipboard",
+    "iconColor": "#00acc1"
+  },
+  "docs/diagrams": {
+    "iconName": "LiGitBranch",
+    "iconColor": "#fdd835"
+  },
+  "project": {
+    "iconName": "LiCalendarDays",
+    "iconColor": "#ff7043"
+  },
+  "evidence": {
+    "iconName": "LiArchive",
+    "iconColor": "#9e9e9e"
+  },
+  "evidence/meetings": {
+    "iconName": "LiMessageSquareDot",
+    "iconColor": "#29b6f6"
+  },
+  "evidence/commits": {
+    "iconName": "LiGitCommit",
+    "iconColor": "#c2185b"
+  },
+  "evidence/tasks": {
+    "iconName": "LiCheckSquare",
+    "iconColor": "#43a047"
+  },
+  "notes": {
+    "iconName": "LiEdit3",
+    "iconColor": "#ffc107"
+  },
+  "assets": {
+    "iconName": "LiImage",
+    "iconColor": "#9c27b0"
+  },
+  "slides": {
+    "iconName": "LiPresentation",
+    "iconColor": "#fb8c00"
+  },
+  "assets/screenshots": {
+    "iconName": "LiCamera",
+    "iconColor": "#f4511e"
+  },
+  "assets/logos": {
+    "iconName": "LiShield",
+    "iconColor": "#3949ab"
+  },
+  "assets/icons": {
+    "iconName": "LiLayoutGrid",
+    "iconColor": "#7e57c2"
+  }
+}
