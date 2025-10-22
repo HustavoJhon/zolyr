@@ -1,36 +1,44 @@
-#include <fstream>
+// ============================================================
+// FINPROC - Sistema de Simulación Bancaria
+// ============================================================
+// Autor: @hustavojhon
+// Curso: Estructura de Datos
+// Descripción: Este programa simula la atención de clientes en un
+// banco, usando estructuras dinámicas simples y validaciones.
+// ============================================================
+
+#include <cstring>
 #include <iostream>
-#include <string>
 using namespace std;
 
-// ============================================================
-// Estructuras del sistema
-// ============================================================
+#define COLOR_RESET "\033[0m"
+#define COLOR_TITULO "\033[1;36m"
+#define COLOR_MENU "\033[1;33m"
+#define COLOR_INFO "\033[1;37m"
+#define COLOR_ERROR "\033[1;31m"
+#define COLOR_OK "\033[1;32m"
 
-// Lista enlazada de clientes
 struct Cliente {
-  string dni;
-  string nombre;
-  string tipo; // VIP, Preferencial, Regular
+  char dni[9];
+  char nombre[50];
+  char tipo[15];
   Cliente *sig;
 };
 
-// Pila de transacciones
 struct Transaccion {
-  string tipo;
+  char tipo[20];
   double monto;
   Transaccion *sig;
 };
 
-// Cola de prioridad
 struct NodoCola {
-  string dni;
+  char dni[9];
   int prioridad;
   NodoCola *sig;
 };
 
 // ============================================================
-// Variables globales (para mantener el codigo simple)
+// Punteros globales
 // ============================================================
 
 Cliente *listaClientes = NULL;
@@ -38,23 +46,98 @@ Transaccion *pilaTrans = NULL;
 NodoCola *cola = NULL;
 
 // ============================================================
-// Funciones de lista enlazada (clientes)
+// Funciones de utilidad
 // ============================================================
 
-void agregarCliente() {
-  Cliente *nuevo = new Cliente();
-  cout << "Ingrese DNI: ";
-  cin >> nuevo->dni;
+// Limpia la consola
+void limpiarPantalla() {
+#ifdef _WIN32
+  system("cls");
+#else
+  system("clear");
+#endif
+}
 
-  cout << "Ingrese nombre: ";
+// Pausa hasta que el usuario presione Enter
+void pausa() {
+  cout << COLOR_INFO << "\nPresione Enter para continuar..." << COLOR_RESET;
   cin.ignore();
-  getline(cin, nuevo->nombre);
+  cin.get();
+}
 
-  cout << "Tipo (VIP / Preferencial / Regular): ";
-  cin >> nuevo->tipo;
+// Muestra el banner principal
+void mostrarBanner() {
+  cout << COLOR_TITULO;
+  cout << "============================================\n";
+  cout << "   FINPROC - SISTEMA DE ATENCIÓN BANCARIA   \n";
+  cout << "============================================\n";
+  cout << COLOR_RESET;
+}
+
+// Verifica si un DNI es válido (8 dígitos numéricos)
+bool validarDNI(const char *dni) {
+  if (strlen(dni) != 8)
+    return false;
+  for (int i = 0; i < 8; i++) {
+    if (dni[i] < '0' || dni[i] > '9')
+      return false;
+  }
+  return true;
+}
+
+// ============================================================
+// Funciones de lista enlazada
+// ============================================================
+
+void registrarCliente() {
+  limpiarPantalla();
+  mostrarBanner();
+  cout << COLOR_MENU << "== REGISTRAR CLIENTE ==" << COLOR_RESET << endl;
+
+  Cliente *nuevo = new Cliente();
+
+  cout << "Ingrese DNI (8 dígitos): ";
+  cin >> nuevo->dni;
+  if (!validarDNI(nuevo->dni)) {
+    cout << COLOR_ERROR << "Error: DNI inválido.\n" << COLOR_RESET;
+    delete nuevo;
+    pausa();
+    return;
+  }
+
+  cout << "Ingrese nombre completo: ";
+  cin.ignore();
+  cin.getline(nuevo->nombre, 50);
+
+  // Submenú para tipo de cliente
+  int tipoOpcion;
+  cout << "\nSeleccione tipo de cliente:\n";
+  cout << "1. VIP\n";
+  cout << "2. Preferencial\n";
+  cout << "3. Regular\n";
+  cout << "Opción: ";
+  cin >> tipoOpcion;
+
+  switch (tipoOpcion) {
+  case 1:
+    strcpy(nuevo->tipo, "VIP");
+    break;
+  case 2:
+    strcpy(nuevo->tipo, "Preferencial");
+    break;
+  case 3:
+    strcpy(nuevo->tipo, "Regular");
+    break;
+  default:
+    cout << COLOR_ERROR << "Opción inválida.\n" << COLOR_RESET;
+    delete nuevo;
+    pausa();
+    return;
+  }
 
   nuevo->sig = NULL;
 
+  // Insertar al final de la lista
   if (listaClientes == NULL) {
     listaClientes = nuevo;
   } else {
@@ -64,13 +147,14 @@ void agregarCliente() {
     aux->sig = nuevo;
   }
 
-  cout << "Cliente registrado.\n";
+  cout << COLOR_OK << "\nCliente registrado exitosamente.\n" << COLOR_RESET;
+  pausa();
 }
 
-Cliente *buscarCliente(string dni) {
+Cliente *buscarCliente(const char *dni) {
   Cliente *aux = listaClientes;
   while (aux != NULL) {
-    if (aux->dni == dni)
+    if (strcmp(aux->dni, dni) == 0)
       return aux;
     aux = aux->sig;
   }
@@ -78,74 +162,111 @@ Cliente *buscarCliente(string dni) {
 }
 
 void mostrarClientes() {
-  cout << "\nLista de clientes:\n";
-  Cliente *aux = listaClientes;
-  while (aux != NULL) {
-    cout << aux->dni << " - " << aux->nombre << " (" << aux->tipo << ")\n";
-    aux = aux->sig;
+  limpiarPantalla();
+  mostrarBanner();
+  cout << COLOR_MENU << "== LISTA DE CLIENTES ==" << COLOR_RESET << endl;
+
+  if (listaClientes == NULL) {
+    cout << COLOR_INFO << "No hay clientes registrados.\n" << COLOR_RESET;
+  } else {
+    Cliente *aux = listaClientes;
+    while (aux != NULL) {
+      cout << aux->dni << " - " << aux->nombre << " (" << aux->tipo << ")\n";
+      aux = aux->sig;
+    }
   }
+  pausa();
 }
 
 // ============================================================
-// Funciones de pila (transacciones)
+// Funciones de pila
 // ============================================================
 
 void registrarTransaccion() {
-  string dni;
-  cout << "Ingrese DNI: ";
+  limpiarPantalla();
+  mostrarBanner();
+  cout << COLOR_MENU << "== REGISTRAR TRANSACCIÓN ==" << COLOR_RESET << endl;
+
+  char dni[9];
+  cout << "Ingrese DNI del cliente: ";
   cin >> dni;
 
-  if (buscarCliente(dni) == NULL) {
-    cout << "Cliente no encontrado.\n";
+  Cliente *cli = buscarCliente(dni);
+  if (cli == NULL) {
+    cout << COLOR_ERROR << "Cliente no encontrado.\n" << COLOR_RESET;
+    pausa();
     return;
   }
 
   Transaccion *nueva = new Transaccion();
-  cout << "Tipo de transaccion (deposito/retiro): ";
+  cout << "Tipo de transacción (deposito/retiro): ";
   cin >> nueva->tipo;
+
   cout << "Monto: ";
   cin >> nueva->monto;
+  if (nueva->monto <= 0) {
+    cout << COLOR_ERROR << "Monto inválido.\n" << COLOR_RESET;
+    delete nueva;
+    pausa();
+    return;
+  }
 
   nueva->sig = pilaTrans;
   pilaTrans = nueva;
 
-  cout << "Transaccion registrada.\n";
+  cout << COLOR_OK << "\nTransacción registrada correctamente.\n"
+       << COLOR_RESET;
+  pausa();
 }
 
-void mostrarPila() {
-  cout << "\nHistorial de transacciones:\n";
-  Transaccion *aux = pilaTrans;
-  while (aux != NULL) {
-    cout << aux->tipo << " - " << aux->monto << "\n";
-    aux = aux->sig;
+void mostrarTransacciones() {
+  limpiarPantalla();
+  mostrarBanner();
+  cout << COLOR_MENU << "== HISTORIAL DE TRANSACCIONES ==" << COLOR_RESET
+       << endl;
+
+  if (pilaTrans == NULL) {
+    cout << COLOR_INFO << "No hay transacciones registradas.\n" << COLOR_RESET;
+  } else {
+    Transaccion *aux = pilaTrans;
+    while (aux != NULL) {
+      cout << aux->tipo << " - " << aux->monto << endl;
+      aux = aux->sig;
+    }
   }
+  pausa();
 }
 
 // ============================================================
 // Funciones de cola de prioridad
 // ============================================================
 
-int obtenerPrioridad(string tipo) {
-  if (tipo == "VIP")
+int obtenerPrioridad(const char *tipo) {
+  if (strcmp(tipo, "VIP") == 0)
     return 1;
-  if (tipo == "Preferencial")
+  if (strcmp(tipo, "Preferencial") == 0)
     return 2;
   return 3;
 }
 
 void encolarCliente() {
-  string dni;
+  limpiarPantalla();
+  mostrarBanner();
+  cout << COLOR_MENU << "== ENCOLAR CLIENTE ==" << COLOR_RESET << endl;
+
+  char dni[9];
   cout << "Ingrese DNI: ";
   cin >> dni;
 
   Cliente *cli = buscarCliente(dni);
   if (cli == NULL) {
-    cout << "Cliente no existe.\n";
+    cout << COLOR_ERROR << "Cliente no existe.\n" << COLOR_RESET;
+    pausa();
     return;
   }
 
   NodoCola *nuevo = new NodoCola();
-  nuevo->dni = dni;
+  strcpy(nuevo->dni, dni);
   nuevo->prioridad = obtenerPrioridad(cli->tipo);
   nuevo->sig = NULL;
 
@@ -160,97 +281,68 @@ void encolarCliente() {
     aux->sig = nuevo;
   }
 
-  cout << "Cliente encolado.\n";
+  cout << COLOR_OK << "Cliente encolado correctamente.\n" << COLOR_RESET;
+  pausa();
 }
 
 void atenderCliente() {
+  limpiarPantalla();
+  mostrarBanner();
+  cout << COLOR_MENU << "== ATENDER CLIENTE ==" << COLOR_RESET << endl;
+
   if (cola == NULL) {
-    cout << "No hay clientes en cola.\n";
+    cout << COLOR_INFO << "No hay clientes en cola.\n" << COLOR_RESET;
+    pausa();
     return;
   }
 
-  cout << "Atendiendo a: " << cola->dni << endl;
+  cout << "Atendiendo a cliente con DNI: " << cola->dni << endl;
   NodoCola *temp = cola;
   cola = cola->sig;
   delete temp;
+
+  cout << COLOR_OK << "Cliente atendido con éxito.\n" << COLOR_RESET;
+  pausa();
 }
 
 void mostrarCola() {
-  cout << "\nCola de atencion:\n";
-  NodoCola *aux = cola;
-  while (aux != NULL) {
-    cout << aux->dni << " (P=" << aux->prioridad << ")\n";
-    aux = aux->sig;
+  limpiarPantalla();
+  mostrarBanner();
+  cout << COLOR_MENU << "== COLA DE ATENCIÓN ==" << COLOR_RESET << endl;
+
+  if (cola == NULL) {
+    cout << COLOR_INFO << "No hay clientes en cola.\n" << COLOR_RESET;
+  } else {
+    NodoCola *aux = cola;
+    while (aux != NULL) {
+      cout << aux->dni << " (Prioridad " << aux->prioridad << ")\n";
+      aux = aux->sig;
+    }
   }
+  pausa();
 }
-
-// ============================================================
-// Persistencia (guardar y cargar)
-// ============================================================
-
-void guardarDatos() {
-  ofstream f("clientes.txt");
-
-  Cliente *aux = listaClientes;
-  while (aux != NULL) {
-    f << aux->dni << "|" << aux->nombre << "|" << aux->tipo << "\n";
-    aux = aux->sig;
-  }
-
-  f.close();
-  cout << "Datos guardados.\n";
-}
-
-void cargarDatos() {
-  ifstream f("clientes.txt");
-  if (!f.is_open()) {
-    cout << "No se encontraron datos.\n";
-    return;
-  }
-
-  listaClientes = NULL;
-  string dni, nombre, tipo;
-
-  while (getline(f, dni, '|')) {
-    getline(f, nombre, '|');
-    getline(f, tipo);
-
-    Cliente *nuevo = new Cliente();
-    nuevo->dni = dni;
-    nuevo->nombre = nombre;
-    nuevo->tipo = tipo;
-    nuevo->sig = listaClientes;
-    listaClientes = nuevo;
-  }
-
-  cout << "Datos cargados.\n";
-}
-
-// ============================================================
-// Menu principal
-// ============================================================
 
 int main() {
-  int op;
-
+  int opcion;
   do {
-    cout << "\n======= FINPROC =======\n";
+    limpiarPantalla();
+    mostrarBanner();
+    cout << COLOR_MENU;
     cout << "1. Registrar cliente\n";
     cout << "2. Encolar cliente\n";
     cout << "3. Atender cliente\n";
-    cout << "4. Registrar transaccion\n";
+    cout << "4. Registrar transacción\n";
     cout << "5. Mostrar clientes\n";
     cout << "6. Mostrar cola\n";
     cout << "7. Mostrar transacciones\n";
-    cout << "8. Guardar datos\n";
-    cout << "9. Cargar datos\n";
     cout << "0. Salir\n";
-    cout << "Opcion: ";
-    cin >> op;
+    cout << COLOR_RESET;
+    cout << "\nSeleccione una opción: ";
+    cin >> opcion;
 
-    switch (op) {
+    switch (opcion) {
     case 1:
-      agregarCliente();
+      registrarCliente();
       break;
     case 2:
       encolarCliente();
@@ -268,23 +360,18 @@ int main() {
       mostrarCola();
       break;
     case 7:
-      mostrarPila();
-      break;
-    case 8:
-      guardarDatos();
-      break;
-    case 9:
-      cargarDatos();
+      mostrarTransacciones();
       break;
     case 0:
-      cout << "Saliendo...\n";
+      cout << COLOR_INFO << "\nSaliendo del sistema...\n" << COLOR_RESET;
       break;
     default:
-      cout << "Opcion no valida.\n";
+      cout << COLOR_ERROR << "\nOpción inválida. Intente nuevamente.\n"
+           << COLOR_RESET;
+      pausa();
       break;
     }
-
-  } while (op != 0);
+  } while (opcion != 0);
 
   return 0;
 }
