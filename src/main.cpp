@@ -11,30 +11,34 @@
 #include <iostream>
 using namespace std;
 
-#define COLOR_RESET "\033[0m"
-#define COLOR_TITULO "\033[1;36m"
-#define COLOR_MENU "\033[1;33m"
-#define COLOR_INFO "\033[1;37m"
-#define COLOR_ERROR "\033[1;31m"
-#define COLOR_OK "\033[1;32m"
+// Definición de constantes para colores que se usarán en la salida del terminal
+#define COLOR_RESET "\033[0m"  // Reset del color
+#define COLOR_TITULO "\033[1;36m"  // Color para los títulos (cyan)
+#define COLOR_MENU "\033[1;33m"  // Color para los menús (amarillo)
+#define COLOR_INFO "\033[1;37m"  // Color para la información general (blanco)
+#define COLOR_ERROR "\033[1;31m"  // Color para los mensajes de error (rojo)
+#define COLOR_OK "\033[1;32m"  // Color para los mensajes de éxito (verde)
 
+// Estructura Cliente: Define a un cliente con su información básica
 struct Cliente {
-  char dni[9];
-  char nombre[50];
-  char tipo[15];
-  Cliente *sig;
+  char dni[9];  // DNI del cliente (identificación)
+  char nombre[50];  // Nombre del cliente
+  char tipo[15];  // Tipo de cliente (por ejemplo, 'regular', 'premium', etc.)
+  Cliente *sig;  // Puntero al siguiente cliente en la lista (para crear una lista enlazada)
 };
 
+// Estructura Transaccion: Define las transacciones realizadas por los clientes
 struct Transaccion {
-  char tipo[20];
-  double monto;
-  Transaccion *sig;
+  char tipo[20];  // Tipo de transacción (por ejemplo, 'depósito', 'retiro', etc.)
+  double monto;  // Monto involucrado en la transacción
+  Transaccion *sig;  // Puntero a la siguiente transacción (enlazado para crear una lista de transacciones)
 };
 
+// Estructura NodoCola: Representa un nodo en la cola de clientes para procesamiento
 struct NodoCola {
-  char dni[9];
-  int prioridad;
-  NodoCola *sig;
+  char dni[9];  // DNI del cliente en la cola
+  int prioridad;  // Prioridad del cliente en la cola (para determinar el orden de atención)
+  NodoCola *sig;  // Puntero al siguiente nodo en la cola (lista enlazada de clientes en espera)
 };
 
 // ============================================================
