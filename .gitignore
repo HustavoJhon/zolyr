@@ -1,5 +1,7 @@
 #Obsidian
 .obsidian/
+.obsidian/workspace.json
+
 
 # Prerequisites
 *.d
