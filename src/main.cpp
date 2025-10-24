@@ -100,7 +100,7 @@ void registrarCliente() {
 
   Cliente *nuevo = new Cliente();
 
-  cout << "Ingrese DNI (8 dígitos): ";
+  cout << "Ingrese DNI (8 d�gitos): ";
   cin >> nuevo->dni;
   if (!validarDNI(nuevo->dni)) {
     cout << COLOR_ERROR << "Error: DNI inválido.\n" << COLOR_RESET;
@@ -189,7 +189,7 @@ void mostrarClientes() {
 void registrarTransaccion() {
   limpiarPantalla();
   mostrarBanner();
-  cout << COLOR_MENU << "== REGISTRAR TRANSACCIÓN ==" << COLOR_RESET << endl;
+  cout << COLOR_MENU << "== REGISTRAR TRANSACCI�N ==" << COLOR_RESET << endl;
 
   char dni[9];
   cout << "Ingrese DNI del cliente: ";
@@ -203,13 +203,13 @@ void registrarTransaccion() {
   }
 
   Transaccion *nueva = new Transaccion();
-  cout << "Tipo de transacción (deposito/retiro): ";
+  cout << "Tipo de transacci�nn (deposito/retiro): ";
   cin >> nueva->tipo;
 
   cout << "Monto: ";
   cin >> nueva->monto;
   if (nueva->monto <= 0) {
-    cout << COLOR_ERROR << "Monto inválido.\n" << COLOR_RESET;
+    cout << COLOR_ERROR << "Monto inv�lido.\n" << COLOR_RESET;
     delete nueva;
     pausa();
     return;
@@ -218,7 +218,7 @@ void registrarTransaccion() {
   nueva->sig = pilaTrans;
   pilaTrans = nueva;
 
-  cout << COLOR_OK << "\nTransacción registrada correctamente.\n"
+  cout << COLOR_OK << "\nTransacci�n registrada correctamente.\n"
        << COLOR_RESET;
   pausa();
 }
@@ -305,7 +305,7 @@ void atenderCliente() {
   cola = cola->sig;
   delete temp;
 
-  cout << COLOR_OK << "Cliente atendido con éxito.\n" << COLOR_RESET;
+  cout << COLOR_OK << "Cliente atendido con �xito \n" << COLOR_RESET;
   pausa();
 }
 
@@ -352,7 +352,7 @@ int main() {
     cout << "7. Mostrar transacciones\n";
     cout << "0. Salir\n";
     cout << COLOR_RESET;
-    cout << "\nSeleccione una opción: ";
+    cout << "\nSeleccione una opci�n: ";
     cin >> opcion;
 
     switch (opcion) {
@@ -381,7 +381,7 @@ int main() {
       cout << COLOR_INFO << "\nSaliendo del sistema...\n" << COLOR_RESET;
       break;
     default:
-      cout << COLOR_ERROR << "\nOpción inválida. Intente nuevamente.\n"
+      cout << COLOR_ERROR << "\n Opci�n inv�lida. Intente nuevamente.\n"
            << COLOR_RESET;
       pausa();
       break;
