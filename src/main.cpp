@@ -327,6 +327,7 @@ void mostrarCola() {
 }
 
 int main() {
+	setlocale(LC_CTYPE, "Spanish");
   int opcion;
   do {
     limpiarPantalla();
