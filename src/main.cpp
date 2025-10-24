@@ -310,19 +310,29 @@ void atenderCliente() {
 }
 
 void mostrarCola() {
+  // Limpiar la pantalla antes de mostrar la información
   limpiarPantalla();
+  
+  // Mostrar un banner con información general
   mostrarBanner();
-  cout << COLOR_MENU << "== COLA DE ATENCIÃ“N ==" << COLOR_RESET << endl;
+  
+  // Mostrar título con color personalizado
+  cout << COLOR_MENU << "== COLA DE ATENCIÓN ==" << COLOR_RESET << endl;
 
+  // Verificar si la cola está vacía
   if (cola == NULL) {
+    // Si no hay clientes, mostrar un mensaje informativo
     cout << COLOR_INFO << "No hay clientes en cola.\n" << COLOR_RESET;
   } else {
+    // Si hay clientes en la cola, mostrar su DNI y prioridad
     NodoCola *aux = cola;
     while (aux != NULL) {
-      cout << aux->dni << " (Prioridad " << aux->prioridad << ")\n";
-      aux = aux->sig;
+      cout << aux->dni << " (Prioridad " << aux->prioridad << ")\n";  // Mostrar cada cliente con su DNI y prioridad
+      aux = aux->sig;  // Avanzar al siguiente nodo de la cola
     }
   }
+
+  // Pausar para que el usuario pueda ver la información antes de continuar
   pausa();
 }
 
