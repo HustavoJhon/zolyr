@@ -1,0 +1,9 @@
+# Ignorar carpetas de estilos y librerías
+presentation_files/
+
+
+# Ignorar archivos temporales de editores
+*.tmp
+*.log
+*.bak
+
