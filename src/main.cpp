@@ -72,11 +72,14 @@ void pausa() {
 
 // Muestra el banner principal
 void mostrarBanner() {
-  cout << COLOR_TITULO;
+  cout << COLOR_TITULO;  // Aplicar color al título
+  
+  // Imprimir el banner con líneas decorativas
   cout << "============================================\n";
-  cout << "   FINPROC - SISTEMA DE ATENCIÓN BANCARIA   \n";
+  cout << "   FINPROC - SISTEMA DE ATENCIÓN BANCARIA   \n";  // Título principal
   cout << "============================================\n";
-  cout << COLOR_RESET;
+  
+  cout << COLOR_RESET;  // Restablecer color al valor predeterminado
 }
 
 // Verifica si un DNI es válido (8 dígitos solamente)
