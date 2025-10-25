@@ -63,6 +63,7 @@ void limpiarPantalla() {
 }
 
 // Pausa hasta que el usuario presione Enter
+
 void pausa() {
   cout << COLOR_INFO << "\nPresione Enter para continuar..." << COLOR_RESET;
   cin.ignore();
@@ -73,12 +74,12 @@ void pausa() {
 void mostrarBanner() {
   cout << COLOR_TITULO;
   cout << "============================================\n";
-  cout << "   FINPROC - SISTEMA DE ATENCIÃ“N BANCARIA   \n";
+  cout << "   FINPROC - SISTEMA DE ATENCIÓN BANCARIA   \n";
   cout << "============================================\n";
   cout << COLOR_RESET;
 }
 
-// Verifica si un DNI es vÃ¡lido (8 dÃ­gitos numÃ©ricos)
+// Verifica si un DNI es válido (8 dígitos solamente)
 bool validarDNI(const char *dni) {
   if (strlen(dni) != 8)
     return false;
