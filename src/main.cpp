@@ -82,14 +82,20 @@ void mostrarBanner() {
   cout << COLOR_RESET;  // Restablecer color al valor predeterminado
 }
 
-// Verifica si un DNI es válido (8 dígitos solamente)
+// Función que verifica si un DNI es válido (solo debe tener 8 dígitos numéricos)
 bool validarDNI(const char *dni) {
+  // Verifica que la longitud del DNI sea exactamente 8 caracteres
   if (strlen(dni) != 8)
     return false;
+
+  // Recorre cada carácter del DNI
   for (int i = 0; i < 8; i++) {
+    // Si algún carácter no está entre '0' y '9', el DNI no es válido
     if (dni[i] < '0' || dni[i] > '9')
       return false;
   }
+
+  // Si pasa todas las validaciones, el DNI es válido
   return true;
 }
 
