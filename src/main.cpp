@@ -1,10 +1,10 @@
 // ============================================================
-// FINPROC - Sistema de Simulaci贸n Bancaria
+// FINPROC - Sistema de Simulaci髇n Bancaria
 // ============================================================
 // Autor: @hustavojhon
 // Curso: Estructura de Datos
-// Descripci贸n: Este programa simula la atenci贸n de clientes en un
-// banco, usando estructuras din谩micas simples y validaciones.
+// Descripci髇: Este programa simula la atenci髇 de clientes en un
+// banco, usando estructuras din醡icas simples y validaciones.
 // ============================================================
 
 #include <cstring>
@@ -107,7 +107,7 @@ void registrarCliente() {
   cout << "Ingrese DNI (8 d韌itos): ";
   cin >> nuevo->dni;
   if (!validarDNI(nuevo->dni)) {
-    cout << COLOR_ERROR << "Error: DNI inv谩lido.\n" << COLOR_RESET;
+    cout << COLOR_ERROR << "Error: DNI inv醠ido.\n" << COLOR_RESET;
     delete nuevo;
     pausa();
     return;
@@ -137,7 +137,7 @@ void registrarCliente() {
     strcpy(nuevo->tipo, "Regular");
     break;
   default:
-    cout << COLOR_ERROR << "Opci贸n inv谩lida.\n" << COLOR_RESET;
+    cout << COLOR_ERROR << "Opci髇 inv醠ida\n" << COLOR_RESET;
     delete nuevo;
     pausa();
     return;
