@@ -123,7 +123,7 @@ void registrarCliente() {
   cout << "1. VIP\n";
   cout << "2. Preferencial\n";
   cout << "3. Regular\n";
-  cout << "OpciÃ³n: ";
+  cout << "Opción: ";
   cin >> tipoOpcion;
 
   switch (tipoOpcion) {
@@ -350,7 +350,7 @@ int main() {
     cout << "1. Registrar cliente\n";
     cout << "2. Encolar cliente\n";
     cout << "3. Atender cliente\n";
-    cout << "4. Registrar transacciÃ³n\n";
+    cout << "4. Registrar transacción\n";
     cout << "5. Mostrar clientes\n";
     cout << "6. Mostrar cola\n";
     cout << "7. Mostrar transacciones\n";
