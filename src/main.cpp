@@ -102,28 +102,31 @@ bool validarDNI(const char *dni) {
 // ============================================================
 // Funciones de lista enlazada
 // ============================================================
-
 void registrarCliente() {
-  limpiarPantalla();
-  mostrarBanner();
-  cout << COLOR_MENU << "== REGISTRAR CLIENTE ==" << COLOR_RESET << endl;
+  limpiarPantalla(); // Limpia la pantalla antes de mostrar el formulario de registro
+  mostrarBanner();   // Muestra el encabezado o banner del programa
+  cout << COLOR_MENU << "== REGISTRAR CLIENTE ==" << COLOR_RESET << endl; // Título del menú
 
-  Cliente *nuevo = new Cliente();
+  Cliente *nuevo = new Cliente(); // Crea dinámicamente un nuevo objeto Cliente
 
+  // Solicita el DNI del cliente
   cout << "Ingrese DNI (8 dígitos): ";
   cin >> nuevo->dni;
+
+  // Verifica si el DNI ingresado es válido (solo 8 dígitos numéricos)
   if (!validarDNI(nuevo->dni)) {
     cout << COLOR_ERROR << "Error: DNI inválido.\n" << COLOR_RESET;
-    delete nuevo;
-    pausa();
-    return;
+    delete nuevo; // Libera la memoria del cliente creado
+    pausa();       // Pausa la ejecución para que el usuario lea el mensaje
+    return;        // Sale de la función sin registrar al cliente
   }
 
+  // Solicita el nombre completo del cliente
   cout << "Ingrese nombre completo: ";
-  cin.ignore();
-  cin.getline(nuevo->nombre, 50);
+  cin.ignore();                  // Limpia el buffer del teclado
+  cin.getline(nuevo->nombre, 50); // Captura el nombre completo (máx. 50 caracteres)
 
-  // SubmenÃº para tipo de cliente
+  // Submenú para elegir el tipo de cliente
   int tipoOpcion;
   cout << "\nSeleccione tipo de cliente:\n";
   cout << "1. VIP\n";
@@ -132,6 +135,7 @@ void registrarCliente() {
   cout << "Opción: ";
   cin >> tipoOpcion;
 
+  // Asigna el tipo de cliente según la opción seleccionada
   switch (tipoOpcion) {
   case 1:
     strcpy(nuevo->tipo, "VIP");
@@ -143,27 +147,30 @@ void registrarCliente() {
     strcpy(nuevo->tipo, "Regular");
     break;
   default:
+    // En caso de opción inválida, muestra error y cancela el registro
     cout << COLOR_ERROR << "Opción inválida\n" << COLOR_RESET;
     delete nuevo;
     pausa();
     return;
   }
 
-  nuevo->sig = NULL;
+  nuevo->sig = NULL; // Inicializa el puntero siguiente como nulo (fin de la lista)
 
-  // Insertar al final de la lista
+  // Inserta el nuevo cliente al final de la lista enlazada
   if (listaClientes == NULL) {
-    listaClientes = nuevo;
+    listaClientes = nuevo; // Si la lista está vacía, el nuevo cliente será el primero
   } else {
-    Cliente *aux = listaClientes;
+    Cliente *aux = listaClientes; // Recorre la lista hasta el último nodo
     while (aux->sig != NULL)
       aux = aux->sig;
-    aux->sig = nuevo;
+    aux->sig = nuevo; // Enlaza el nuevo cliente al final de la lista
   }
 
+  // Mensaje de confirmación
   cout << COLOR_OK << "\nCliente registrado exitosamente.\n" << COLOR_RESET;
-  pausa();
+  pausa(); // Espera que el usuario presione una tecla antes de continuar
 }
+
 
 Cliente *buscarCliente(const char *dni) {
   Cliente *aux = listaClientes;
