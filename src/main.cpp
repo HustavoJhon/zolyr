@@ -1,16 +1,15 @@
 // ============================================================
-// FINPROC - Sistema de SimulaciÃ³n Bancaria
+// FINPROC - Sistema de Simulación Bancaria
 // ============================================================
 // Autor: @hustavojhon
+//			@RodrigoSevillanos
 // Curso: Estructura de Datos
-// DescripciÃ³n: Este programa simula la atenciÃ³n de clientes en un
-// banco, usando estructuras dinÃ¡micas simples y validaciones.
+// Descripción: Este programa simula la atención de clientes en un
+// banco, usando estructuras dinámicas simples y validaciones.
 // ============================================================
-
 #include <cstring>
 #include <iostream>
 using namespace std;
-
 #define COLOR_RESET "\033[0m"
 #define COLOR_TITULO "\033[1;36m"
 #define COLOR_MENU "\033[1;33m"
@@ -69,12 +68,12 @@ void pausa() {
 void mostrarBanner() {
   cout << COLOR_TITULO;
   cout << "============================================\n";
-  cout << "   FINPROC - SISTEMA DE ATENCIÃ“N BANCARIA   \n";
+  cout << "   FINPROC - SISTEMA DE ATENCIÓN BANCARIA   \n";
   cout << "============================================\n";
   cout << COLOR_RESET;
 }
 
-// Verifica si un DNI es vÃ¡lido (8 dÃ­gitos numÃ©ricos)
+// Verifica si un DNI es válido (8 dígitos numéricos)
 bool validarDNI(const char *dni) {
   if (strlen(dni) != 8)
     return false;
@@ -96,10 +95,10 @@ void registrarCliente() {
 
   Cliente *nuevo = new Cliente();
 
-  cout << "Ingrese DNI (8 dÃ­gitos): ";
+  cout << "Ingrese DNI (8 dígitos): ";
   cin >> nuevo->dni;
   if (!validarDNI(nuevo->dni)) {
-    cout << COLOR_ERROR << "Error: DNI invÃ¡lido.\n" << COLOR_RESET;
+    cout << COLOR_ERROR << "Error: DNI inválido.\n" << COLOR_RESET;
     delete nuevo;
     pausa();
     return;
@@ -109,13 +108,13 @@ void registrarCliente() {
   cin.ignore();
   cin.getline(nuevo->nombre, 50);
 
-  // SubmenÃº para tipo de cliente
+  // Submenú para tipo de cliente
   int tipoOpcion;
   cout << "\nSeleccione tipo de cliente:\n";
   cout << "1. VIP\n";
   cout << "2. Preferencial\n";
   cout << "3. Regular\n";
-  cout << "OpciÃ³n: ";
+  cout << "Opción: ";
   cin >> tipoOpcion;
 
   switch (tipoOpcion) {
@@ -129,7 +128,7 @@ void registrarCliente() {
     strcpy(nuevo->tipo, "Regular");
     break;
   default:
-    cout << COLOR_ERROR << "OpciÃ³n invÃ¡lida.\n" << COLOR_RESET;
+    cout << COLOR_ERROR << "Opción inválida.\n" << COLOR_RESET;
     delete nuevo;
     pausa();
     return;
@@ -185,7 +184,7 @@ void mostrarClientes() {
 void registrarTransaccion() {
   limpiarPantalla();
   mostrarBanner();
-  cout << COLOR_MENU << "== REGISTRAR TRANSACCIÃ“N ==" << COLOR_RESET << endl;
+  cout << COLOR_MENU << "== REGISTRAR TRANSACCIÓN ==" << COLOR_RESET << endl;
 
   char dni[9];
   cout << "Ingrese DNI del cliente: ";
@@ -199,13 +198,13 @@ void registrarTransaccion() {
   }
 
   Transaccion *nueva = new Transaccion();
-  cout << "Tipo de transacciÃ³n (deposito/retiro): ";
+  cout << "Tipo de transacción (deposito/retiro): ";
   cin >> nueva->tipo;
 
   cout << "Monto: ";
   cin >> nueva->monto;
   if (nueva->monto <= 0) {
-    cout << COLOR_ERROR << "Monto invÃ¡lido.\n" << COLOR_RESET;
+    cout << COLOR_ERROR << "Monto inválido.\n" << COLOR_RESET;
     delete nueva;
     pausa();
     return;
@@ -214,7 +213,7 @@ void registrarTransaccion() {
   nueva->sig = pilaTrans;
   pilaTrans = nueva;
 
-  cout << COLOR_OK << "\nTransacciÃ³n registrada correctamente.\n"
+  cout << COLOR_OK << "\nTransacción registrada correctamente.\n"
        << COLOR_RESET;
   pausa();
 }
@@ -301,14 +300,14 @@ void atenderCliente() {
   cola = cola->sig;
   delete temp;
 
-  cout << COLOR_OK << "Cliente atendido con Ã©xito.\n" << COLOR_RESET;
+  cout << COLOR_OK << "Cliente atendido con éxito.\n" << COLOR_RESET;
   pausa();
 }
 
 void mostrarCola() {
   limpiarPantalla();
   mostrarBanner();
-  cout << COLOR_MENU << "== COLA DE ATENCIÃ“N ==" << COLOR_RESET << endl;
+  cout << COLOR_MENU << "== COLA DE ATENCIÓN ==" << COLOR_RESET << endl;
 
   if (cola == NULL) {
     cout << COLOR_INFO << "No hay clientes en cola.\n" << COLOR_RESET;
@@ -331,13 +330,13 @@ int main() {
     cout << "1. Registrar cliente\n";
     cout << "2. Encolar cliente\n";
     cout << "3. Atender cliente\n";
-    cout << "4. Registrar transacciÃ³n\n";
+    cout << "4. Registrar transacción\n";
     cout << "5. Mostrar clientes\n";
     cout << "6. Mostrar cola\n";
     cout << "7. Mostrar transacciones\n";
     cout << "0. Salir\n";
     cout << COLOR_RESET;
-    cout << "\nSeleccione una opciÃ³n: ";
+    cout << "\nSeleccione una opción: ";
     cin >> opcion;
 
     switch (opcion) {
@@ -366,7 +365,7 @@ int main() {
       cout << COLOR_INFO << "\nSaliendo del sistema...\n" << COLOR_RESET;
       break;
     default:
-      cout << COLOR_ERROR << "\nOpciÃ³n invÃ¡lida. Intente nuevamente.\n"
+      cout << COLOR_ERROR << "\nOpción inválida. Intente nuevamente.\n"
            << COLOR_RESET;
       pausa();
       break;
@@ -375,3 +374,4 @@ int main() {
 
   return 0;
 }
+
