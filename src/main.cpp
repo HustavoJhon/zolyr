@@ -171,16 +171,23 @@ void registrarCliente() {
   pausa(); // Espera que el usuario presione una tecla antes de continuar
 }
 
-
+// Función que busca un cliente en la lista enlazada por su DNI
 Cliente *buscarCliente(const char *dni) {
-  Cliente *aux = listaClientes;
+  Cliente *aux = listaClientes; // Puntero auxiliar que recorre la lista de clientes
+
+  // Recorre la lista mientras existan nodos
   while (aux != NULL) {
+    // Compara el DNI del cliente actual con el DNI buscado
     if (strcmp(aux->dni, dni) == 0)
-      return aux;
-    aux = aux->sig;
+      return aux; // Si coincide, devuelve el puntero al cliente encontrado
+
+    aux = aux->sig; // Avanza al siguiente cliente en la lista
   }
+
+  // Si no se encuentra ningún cliente con ese DNI, retorna NULL
   return NULL;
 }
+
 
 void mostrarClientes() {
   limpiarPantalla();
