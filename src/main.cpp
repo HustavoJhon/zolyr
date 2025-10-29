@@ -188,23 +188,29 @@ Cliente *buscarCliente(const char *dni) {
   return NULL;
 }
 
-
+// Función que muestra en pantalla la lista de todos los clientes registrados
 void mostrarClientes() {
-  limpiarPantalla();
-  mostrarBanner();
-  cout << COLOR_MENU << "== LISTA DE CLIENTES ==" << COLOR_RESET << endl;
+  limpiarPantalla(); // Limpia la pantalla antes de mostrar la lista
+  mostrarBanner();   // Muestra el encabezado o título principal del programa
+  cout << COLOR_MENU << "== LISTA DE CLIENTES ==" << COLOR_RESET << endl; // Título de la sección
 
+  // Verifica si la lista de clientes está vacía
   if (listaClientes == NULL) {
+    // Si no hay clientes, muestra un mensaje informativo
     cout << COLOR_INFO << "No hay clientes registrados.\n" << COLOR_RESET;
   } else {
+    // Si existen clientes, recorre la lista enlazada desde el inicio
     Cliente *aux = listaClientes;
     while (aux != NULL) {
+      // Muestra la información del cliente: DNI, nombre y tipo
       cout << aux->dni << " - " << aux->nombre << " (" << aux->tipo << ")\n";
-      aux = aux->sig;
+      aux = aux->sig; // Avanza al siguiente nodo de la lista
     }
   }
-  pausa();
+
+  pausa(); // Espera una acción del usuario antes de continuar (por ejemplo, presionar una tecla)
 }
+
 
 // ============================================================
 // Funciones de pila
