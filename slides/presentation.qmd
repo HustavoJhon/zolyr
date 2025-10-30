@@ -1,0 +1,273 @@
+---
+title: "FINPROC"
+subtitle: "Sistema de Simulación de Procesos Bancarios"
+author: "Estructuras de Datos - Proyecto Final"
+date: "2025-11-05"
+format:
+  revealjs:
+    theme: simple
+    transition: fade
+    slide-number: true
+    center: true
+    code-overflow: wrap
+    incremental: true
+    toc: false
+---
+
+<style>
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --text-primary: #ffffff;
+  --text-secondary: #d9d9d9;
+  --accent-color: #64ffda;
+  --code-bg: rgba(20, 30, 40, 0.7);
+}
+
+.reveal {
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.reveal h1, .reveal h2, .reveal h3 {
+  color: var(--text-primary);
+  text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.6);
+}
+
+.reveal h2 {
+  color: var(--accent-color);
+}
+
+.reveal p, .reveal li {
+  color: var(--text-secondary);
+  font-size: 1.05em;
+  line-height: 1.6;
+}
+
+.card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
+  border: 1px solid var(--glass-border);
+  padding: 2em;
+  margin: 1.5em auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 1000px;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(100, 255, 218, 0.25);
+}
+
+.reveal pre {
+  background: var(--code-bg);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  padding: 1.3em;
+  border-left: 4px solid var(--accent-color);
+  font-size: 0.9em;
+}
+
+.reveal code {
+  color: #a8dadc;
+}
+
+.reveal table {
+  background: var(--glass-bg);
+  border-radius: 12px;
+  border-collapse: collapse;
+  overflow: hidden;
+}
+
+.reveal table th, .reveal table td {
+  padding: 0.8em 1em;
+}
+
+.reveal table th {
+  background: rgba(100, 255, 218, 0.2);
+  color: var(--accent-color);
+  text-align: left;
+}
+
+.reveal table td {
+  color: var(--text-secondary);
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.reveal img {
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+  max-width: 85%;
+  margin: 1em auto;
+  display: block;
+}
+</style>
+
+# {.card}
+
+## **FINPROC**
+### Sistema de Simulación de Procesos Bancarios
+
+**Estructuras de Datos Aplicadas:**  
+Lista Enlazada • Cola de Prioridad • Pila
+
+_Proyecto final — Curso de Estructuras de Datos_
+
+---
+
+# Planteamiento del Problema {.card}
+
+### Contexto Bancario
+- **Problema:** Atención lenta y sin priorización en sucursales bancarias.  
+- **Causas:**
+  - Tiempos de espera prolongados.
+  - Falta de prioridad para clientes VIP.
+  - No existe trazabilidad de transacciones.
+  - Errores manuales difíciles de revertir.
+
+### Objetivo del Proyecto
+Desarrollar un **sistema de simulación bancaria** que optimice la atención al cliente aplicando **estructuras de datos dinámicas (Lista, Cola y Pila)** para registrar, priorizar y revertir operaciones.
+
+---
+
+# Estructuras de Datos y Operaciones {.card}
+
+### 1️⃣ Lista Enlazada — Registro Maestro de Clientes
+- **Función:** Almacenar datos personales.  
+- **Operaciones:** `insertar()`, `eliminar()`, `buscar()`, `listar()`.  
+- **Ventaja:** Inserciones rápidas sin redimensionar memoria.
+
+---
+
+### 2️⃣ Cola de Prioridad — Gestión de Atención
+- **Función:** Organizar turnos por tipo de cliente.  
+- **Prioridades:** VIP → Preferencial → Regular.  
+- **Operaciones:** `encolar()`, `desencolar()`, `consultarFrente()`.  
+
+---
+
+### 3️⃣ Pila — Registro de Transacciones
+- **Función:** Controlar el historial de operaciones.  
+- **Operaciones:** `push()`, `pop()`, `peek()`.  
+- **Ventaja:** Permite la función *undo* para revertir acciones.
+
+---
+
+# Algoritmos Principales {.card}
+
+### Pseudocódigo — AgregarCliente (Lista Enlazada)
+
+```text
+ALGORITMO AgregarCliente(dni, nombre, tipo)
+    nuevo ← CREAR Nodo
+    nuevo.dni ← dni
+    nuevo.nombre ← nombre
+    nuevo.tipo ← tipo
+    nuevo.siguiente ← NULL
+    
+    SI cabeza = NULL ENTONCES
+        cabeza ← nuevo
+    SINO
+        actual ← cabeza
+        MIENTRAS actual.siguiente ≠ NULL HACER
+            actual ← actual.siguiente
+        FIN MIENTRAS
+        actual.siguiente ← nuevo
+    FIN SI
+    
+    MOSTRAR "Cliente agregado exitosamente"
+FIN ALGORITMO
+```
+
+---
+
+# Algoritmos Principales {.card}
+
+### Pseudocódigo — RegistrarTransaccion (Pila)
+
+```text
+ALGORITMO RegistrarTransaccion(dniCliente, tipoOperacion, monto)
+    transaccion ← CREAR Nodo
+    transaccion.dni ← dniCliente
+    transaccion.tipo ← tipoOperacion
+    transaccion.monto ← monto
+    transaccion.fecha ← ObtenerFechaHora()
+    
+    transaccion.siguiente ← tope
+    tope ← transaccion
+    
+    MOSTRAR "Transacción registrada"
+FIN ALGORITMO
+```
+
+---
+
+# Diagramas de Flujo {.card}
+
+### Flujo General del Sistema
+![Flujo General](https://via.placeholder.com/900x500/1a1a1a/ffffff?text=Flujo+General+del+Sistema)
+
+**Descripción:**  
+Inicio → Menú Principal → [Registrar Cliente | Encolar Cliente | Transacción | Reportes] → Fin
+
+---
+
+# Diagramas de Flujo {.card}
+
+### Registrar Cliente
+![Registrar Cliente](https://via.placeholder.com/900x500/1a1a1a/ffffff?text=Registrar+Cliente)
+
+**Descripción:**  
+Solicitar DNI → Validar → Insertar → Confirmar → Retornar al menú
+
+---
+
+# Plan de Trabajo y Roles {.card}
+
+| Integrante | Rol | Responsabilidades |
+|-------------|------|-------------------|
+| Gustavo J. Ccarita | Scrum Master / Dev Principal | Dirección del equipo, commits finales |
+| Rodrigo S. Tinco | Analista y Diseñador | Diagramas, algoritmos y documentación técnica |
+| André S. Espinoza | Tester / Documentador | Pruebas funcionales y reportes |
+
+### Cronograma de Sprints
+- **Sprint 1:** Análisis y diseño de estructura y diagramas.  
+- **Sprint 2:** Implementación de módulos (lista, cola, pila).  
+- **Sprint 3:** Integración, validación y presentación final.
+
+---
+
+# Apéndice {.card}
+
+### Ejemplo en C++ — Inserción en Lista Enlazada
+
+```cpp
+struct Cliente {
+    string dni, nombre, tipo;
+    Cliente* siguiente;
+    Cliente(string d, string n, string t)
+        : dni(d), nombre(n), tipo(t), siguiente(nullptr) {}
+};
+
+void agregarCliente(Cliente*& cabeza, string dni, string nombre, string tipo) {
+    Cliente* nuevo = new Cliente(dni, nombre, tipo);
+    if (!cabeza) cabeza = nuevo;
+    else {
+        Cliente* actual = cabeza;
+        while (actual->siguiente) actual = actual->siguiente;
+        actual->siguiente = nuevo;
+    }
+    cout << "Cliente registrado exitosamente.\n";
+}
+```
+
+---
+
+# {.card}
+
+## **¡Gracias por su atención!**
+
+**FINPROC — Sistema de Simulación Bancaria**
