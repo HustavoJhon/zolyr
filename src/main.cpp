@@ -215,43 +215,49 @@ void mostrarClientes() {
 // ============================================================
 // Funciones de pila
 // ============================================================
-
+// Función que registra una nueva transacción (depósito o retiro) para un cliente
 void registrarTransaccion() {
-  limpiarPantalla();
-  mostrarBanner();
-  cout << COLOR_MENU << "== REGISTRAR TRANSACCIÓN ==" << COLOR_RESET << endl;
+  limpiarPantalla(); // Limpia la pantalla antes de mostrar el formulario
+  mostrarBanner();   // Muestra el encabezado o título del sistema
+  cout << COLOR_MENU << "== REGISTRAR TRANSACCIÓN ==" << COLOR_RESET << endl; // Título de la sección
 
-  char dni[9];
+  char dni[9]; // Variable para almacenar el DNI del cliente
   cout << "Ingrese DNI del cliente: ";
-  cin >> dni;
+  cin >> dni; // Solicita el DNI al usuario
 
+  // Busca al cliente en la lista enlazada usando el DNI ingresado
   Cliente *cli = buscarCliente(dni);
-  if (cli == NULL) {
+  if (cli == NULL) { // Si no se encuentra el cliente, muestra mensaje de error
     cout << COLOR_ERROR << "Cliente no encontrado.\n" << COLOR_RESET;
-    pausa();
-    return;
+    pausa(); // Pausa la ejecución para que el usuario vea el mensaje
+    return;  // Sale de la función sin registrar la transacción
   }
 
-  Transaccion *nueva = new Transaccion();
+  Transaccion *nueva = new Transaccion(); // Crea dinámicamente una nueva transacción
   cout << "Tipo de transacciónn (deposito/retiro): ";
-  cin >> nueva->tipo;
+  cin >> nueva->tipo; // Solicita el tipo de transacción
 
   cout << "Monto: ";
-  cin >> nueva->monto;
+  cin >> nueva->monto; // Solicita el monto de la transacción
+
+  // Verifica que el monto sea mayor que cero
   if (nueva->monto <= 0) {
     cout << COLOR_ERROR << "Monto inválido.\n" << COLOR_RESET;
-    delete nueva;
+    delete nueva; // Libera la memoria de la transacción no válida
     pausa();
     return;
   }
 
+  // Inserta la transacción en la pila (al inicio)
   nueva->sig = pilaTrans;
   pilaTrans = nueva;
 
+  // Mensaje de confirmación al usuario
   cout << COLOR_OK << "\nTransacción registrada correctamente.\n"
        << COLOR_RESET;
-  pausa();
+  pausa(); // Espera que el usuario presione una tecla antes de continuar
 }
+
 
 void mostrarTransacciones() {
   limpiarPantalla();
