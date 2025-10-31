@@ -258,23 +258,28 @@ void registrarTransaccion() {
   pausa(); // Espera que el usuario presione una tecla antes de continuar
 }
 
-
+// Función que muestra en pantalla el historial de transacciones registradas
 void mostrarTransacciones() {
-  limpiarPantalla();
-  mostrarBanner();
+  limpiarPantalla(); // Limpia la pantalla antes de mostrar la información
+  mostrarBanner();   // Muestra el encabezado o banner del sistema
   cout << COLOR_MENU << "== HISTORIAL DE TRANSACCIONES ==" << COLOR_RESET
-       << endl;
+       << endl; // Título de la sección
 
+  // Verifica si la pila de transacciones está vacía
   if (pilaTrans == NULL) {
+    // Si no hay transacciones registradas, muestra un mensaje informativo
     cout << COLOR_INFO << "No hay transacciones registradas.\n" << COLOR_RESET;
   } else {
+    // Recorre la pila de transacciones desde la más reciente hasta la más antigua
     Transaccion *aux = pilaTrans;
     while (aux != NULL) {
+      // Muestra el tipo de transacción y el monto correspondiente
       cout << aux->tipo << " - " << aux->monto << endl;
-      aux = aux->sig;
+      aux = aux->sig; // Avanza al siguiente elemento de la pila
     }
   }
-  pausa();
+
+  pausa(); // Espera que el usuario presione una tecla antes de continuar
 }
 
 // ============================================================
