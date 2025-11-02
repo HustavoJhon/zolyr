@@ -1,58 +1,56 @@
 // ============================================================
-// FINPROC - Sistema de Simulaci�nn Bancaria
+// FINPROC - Sistema de Simulación Bancaria
 // ============================================================
-// Autor: @hustavojhon
+// Autor:
+// @hustavojhon
+// @C3b1taz
+// @BLUESKY211206
 // Curso: Estructura de Datos
-// Descripci�n: Este programa simula la atenci�n de clientes en un
-// banco, usando estructuras din�micas simples y validaciones.
+// Descripción: Este programa simula la atención de clientes en un
+// banco utilizando estructuras dinámicas simples y validaciones.
 // ============================================================
 
 #include <cstring>
 #include <iostream>
 using namespace std;
 
-// Definici�n de constantes para colores que se usar�n en la salida del terminal
-#define COLOR_RESET "\033[0m"  // Reset del color
-#define COLOR_TITULO "\033[1;36m"  // Color para los t�tulos (cyan)
-#define COLOR_MENU "\033[1;33m"  // Color para los men�s (amarillo)
-#define COLOR_INFO "\033[1;37m"  // Color para la informaci�n general (blanco)
-#define COLOR_ERROR "\033[1;31m"  // Color para los mensajes de error (rojo)
-#define COLOR_OK "\033[1;32m"  // Color para los mensajes de �xito (verde)
+// Definición de constantes para colores usados en la salida del terminal
+#define COLOR_RESET "\033[0m"      // Reset del color
+#define COLOR_TITULO "\033[1;36m"  // Color para los títulos (cyan)
+#define COLOR_MENU "\033[1;33m"    // Color para los menús (amarillo)
+#define COLOR_INFO "\033[1;37m"    // Color para la información general (blanco)
+#define COLOR_ERROR "\033[1;31m"   // Color para los mensajes de error (rojo)
+#define COLOR_OK "\033[1;32m"      // Color para los mensajes de éxito (verde)
 
-// Estructura Cliente: Define a un cliente con su informaci�n b�sica
+// Estructura Cliente: Define a un cliente con su información básica
 struct Cliente {
-  char dni[9];  // DNI del cliente (identificaci�n)
-  char nombre[50];  // Nombre del cliente
-  char tipo[15];  // Tipo de cliente (por ejemplo, 'regular', 'premium', etc.)
-  Cliente *sig;  // Puntero al siguiente cliente en la lista (para crear una lista enlazada)
+  char dni[9];        // DNI del cliente
+  char nombre[50];    // Nombre del cliente
+  char tipo[15];      // Tipo de cliente (regular, premium, etc.)
+  Cliente *sig;       // Puntero al siguiente cliente en la lista (lista enlazada)
 };
 
-// Estructura Transaccion: Define las transacciones realizadas por los clientes
+// Estructura Transaccion: Representa las transacciones realizadas por los clientes
 struct Transaccion {
-  char tipo[20];  // Tipo de transacci�n (por ejemplo, 'dep�sito', 'retiro', etc.)
-  double monto;  // Monto involucrado en la transacci�n
-  Transaccion *sig;  // Puntero a la siguiente transacci�n (enlazado para crear una lista de transacciones)
+  char tipo[20];      // Tipo de transacción (depósito, retiro, etc.)
+  double monto;       // Monto de la transacción
+  Transaccion *sig;   // Puntero a la siguiente transacción (lista enlazada)
 };
 
-// Estructura NodoCola: Representa un nodo en la cola de clientes para procesamiento
+// Estructura NodoCola: Representa un nodo en la cola de clientes en espera
 struct NodoCola {
-  char dni[9];  // DNI del cliente en la cola
-  int prioridad;  // Prioridad del cliente en la cola (para determinar el orden de atenci�n)
-  NodoCola *sig;  // Puntero al siguiente nodo en la cola (lista enlazada de clientes en espera)
+  char dni[9];        // DNI del cliente en la cola
+  int prioridad;      // Prioridad del cliente (define el orden de atención)
+  NodoCola *sig;      // Puntero al siguiente nodo en la cola (lista enlazada)
 };
 
-// ============================================================
-// Punteros globales
-// ============================================================
 
+// Punteros globales
 Cliente *listaClientes = NULL;
 Transaccion *pilaTrans = NULL;
 NodoCola *cola = NULL;
 
-// ============================================================
 // Funciones de utilidad
-// ============================================================
-
 // Limpia la consola
 void limpiarPantalla() {
 #ifdef _WIN32
@@ -63,7 +61,6 @@ void limpiarPantalla() {
 }
 
 // Pausa hasta que el usuario presione Enter
-
 void pausa() {
   cout << COLOR_INFO << "\nPresione Enter para continuar..." << COLOR_RESET;
   cin.ignore();
@@ -72,30 +69,36 @@ void pausa() {
 
 // Muestra el banner principal
 void mostrarBanner() {
-  cout << COLOR_TITULO;  // Aplicar color al t�tulo
-  
-  // Imprimir el banner con l�neas decorativas
-  cout << "============================================\n";
-  cout << "   FINPROC - SISTEMA DE ATENCI�N BANCARIA   \n";  // T�tulo principal
-  cout << "============================================\n";
-  
-  cout << COLOR_RESET;  // Restablecer color al valor predeterminado
+    cout << COLOR_TITULO;  // Aplicar color al título
+
+    cout << "===============================================\n";
+    cout << "███████╗██╗███╗░░██╗██████╗░██████╗░░█████╗░░█████╗░\n";
+    cout << "██╔════╝██║████╗░██║██╔══██╗██╔══██╗██╔══██╗██╔══██╗\n";
+    cout << "█████╗░░██║██╔██╗██║██████╦╝██████╔╝██║░░██║███████║\n";
+    cout << "██╔══╝░░██║██║╚████║██╔══██╗██╔══██╗██║░░██║██╔══██║\n";
+    cout << "██║░░░░░██║██║░╚███║██████╦╝██║░░██║╚█████╔╝██║░░██║\n";
+    cout << "╚═╝░░░░░╚═╝╚═╝░░╚══╝╚═════╝░╚═╝░░╚═╝░╚════╝░╚═╝░░╚═╝\n";
+    cout << "===============================================\n";
+    cout << "            FINPROC - ATENCIÓN BANCARIA          \n";
+    cout << "===============================================\n";
+
+    cout << COLOR_RESET;  // Restablecer color al valor predeterminado
 }
 
-// Funci�n que verifica si un DNI es v�lido (solo debe tener 8 d�gitos num�ricos)
+// Función que verifica si un DNI es válido (solo debe tener 8 dígitos numéricos)
 bool validarDNI(const char *dni) {
   // Verifica que la longitud del DNI sea exactamente 8 caracteres
   if (strlen(dni) != 8)
     return false;
 
-  // Recorre cada car�cter del DNI
+  // Recorre cada carácter del DNI
   for (int i = 0; i < 8; i++) {
-    // Si alg�n car�cter no est� entre '0' y '9', el DNI no es v�lido
+    // Si algún carácter no está entre '0' y '9', el DNI no es válido
     if (dni[i] < '0' || dni[i] > '9')
       return false;
   }
 
-  // Si pasa todas las validaciones, el DNI es v�lido
+  // Si pasa todas las validaciones, el DNI es válido
   return true;
 }
 
@@ -105,37 +108,37 @@ bool validarDNI(const char *dni) {
 void registrarCliente() {
   limpiarPantalla(); // Limpia la pantalla antes de mostrar el formulario de registro
   mostrarBanner();   // Muestra el encabezado o banner del programa
-  cout << COLOR_MENU << "== REGISTRAR CLIENTE ==" << COLOR_RESET << endl; // T�tulo del men�
+  cout << COLOR_MENU << "== REGISTRAR CLIENTE ==" << COLOR_RESET << endl; // Título del menú
 
-  Cliente *nuevo = new Cliente(); // Crea din�micamente un nuevo objeto Cliente
+  Cliente *nuevo = new Cliente(); // Crea dinámicamente un nuevo objeto Cliente
 
   // Solicita el DNI del cliente
-  cout << "Ingrese DNI (8 d�gitos): ";
+  cout << "Ingrese DNI (8 dígitos): ";
   cin >> nuevo->dni;
 
-  // Verifica si el DNI ingresado es v�lido (solo 8 d�gitos num�ricos)
+  // Verifica si el DNI ingresado es válido (solo 8 dígitos numéricos)
   if (!validarDNI(nuevo->dni)) {
-    cout << COLOR_ERROR << "Error: DNI inv�lido.\n" << COLOR_RESET;
+    cout << COLOR_ERROR << "Error: DNI inválido.\n" << COLOR_RESET;
     delete nuevo; // Libera la memoria del cliente creado
-    pausa();       // Pausa la ejecuci�n para que el usuario lea el mensaje
-    return;        // Sale de la funci�n sin registrar al cliente
+    pausa();      // Pausa la ejecución para que el usuario lea el mensaje
+    return;       // Sale de la función sin registrar al cliente
   }
 
   // Solicita el nombre completo del cliente
   cout << "Ingrese nombre completo: ";
-  cin.ignore();                  // Limpia el buffer del teclado
-  cin.getline(nuevo->nombre, 50); // Captura el nombre completo (m�x. 50 caracteres)
+  cin.ignore();                   // Limpia el buffer del teclado
+  cin.getline(nuevo->nombre, 50); // Captura el nombre completo (máx. 50 caracteres)
 
-  // Submen� para elegir el tipo de cliente
+  // Submenú para elegir el tipo de cliente
   int tipoOpcion;
   cout << "\nSeleccione tipo de cliente:\n";
   cout << "1. VIP\n";
   cout << "2. Preferencial\n";
   cout << "3. Regular\n";
-  cout << "Opci�n: ";
+  cout << "Opción: ";
   cin >> tipoOpcion;
 
-  // Asigna el tipo de cliente seg�n la opci�n seleccionada
+  // Asigna el tipo de cliente según la opción seleccionada
   switch (tipoOpcion) {
   case 1:
     strcpy(nuevo->tipo, "VIP");
@@ -147,8 +150,8 @@ void registrarCliente() {
     strcpy(nuevo->tipo, "Regular");
     break;
   default:
-    // En caso de opci�n inv�lida, muestra error y cancela el registro
-    cout << COLOR_ERROR << "Opci�n inv�lida\n" << COLOR_RESET;
+    // En caso de opción inválida, muestra error y cancela el registro
+    cout << COLOR_ERROR << "Opción inválida\n" << COLOR_RESET;
     delete nuevo;
     pausa();
     return;
@@ -158,20 +161,20 @@ void registrarCliente() {
 
   // Inserta el nuevo cliente al final de la lista enlazada
   if (listaClientes == NULL) {
-    listaClientes = nuevo; // Si la lista est� vac�a, el nuevo cliente ser� el primero
+    listaClientes = nuevo; // Si la lista está vacía, el nuevo cliente será el primero
   } else {
-    Cliente *aux = listaClientes; // Recorre la lista hasta el �ltimo nodo
+    Cliente *aux = listaClientes; // Recorre la lista hasta el último nodo
     while (aux->sig != NULL)
       aux = aux->sig;
     aux->sig = nuevo; // Enlaza el nuevo cliente al final de la lista
   }
 
-  // Mensaje de confirmaci�n
+  // Mensaje de confirmación
   cout << COLOR_OK << "\nCliente registrado exitosamente.\n" << COLOR_RESET;
   pausa(); // Espera que el usuario presione una tecla antes de continuar
 }
 
-// Funci�n que busca un cliente en la lista enlazada por su DNI
+// Función que busca un cliente en la lista enlazada por su DNI
 Cliente *buscarCliente(const char *dni) {
   Cliente *aux = listaClientes; // Puntero auxiliar que recorre la lista de clientes
 
@@ -184,17 +187,17 @@ Cliente *buscarCliente(const char *dni) {
     aux = aux->sig; // Avanza al siguiente cliente en la lista
   }
 
-  // Si no se encuentra ning�n cliente con ese DNI, retorna NULL
+  // Si no se encuentra ningún cliente con ese DNI, retorna NULL
   return NULL;
 }
 
-// Funci�n que muestra en pantalla la lista de todos los clientes registrados
+// Función que muestra en pantalla la lista de todos los clientes registrados
 void mostrarClientes() {
   limpiarPantalla(); // Limpia la pantalla antes de mostrar la lista
-  mostrarBanner();   // Muestra el encabezado o t�tulo principal del programa
-  cout << COLOR_MENU << "== LISTA DE CLIENTES ==" << COLOR_RESET << endl; // T�tulo de la secci�n
+  mostrarBanner();   // Muestra el encabezado o título principal del programa
+  cout << COLOR_MENU << "== LISTA DE CLIENTES ==" << COLOR_RESET << endl; // Título de la sección
 
-  // Verifica si la lista de clientes est� vac�a
+  // Verifica si la lista de clientes está vacía
   if (listaClientes == NULL) {
     // Si no hay clientes, muestra un mensaje informativo
     cout << COLOR_INFO << "No hay clientes registrados.\n" << COLOR_RESET;
@@ -202,24 +205,24 @@ void mostrarClientes() {
     // Si existen clientes, recorre la lista enlazada desde el inicio
     Cliente *aux = listaClientes;
     while (aux != NULL) {
-      // Muestra la informaci�n del cliente: DNI, nombre y tipo
+      // Muestra la información del cliente: DNI, nombre y tipo
       cout << aux->dni << " - " << aux->nombre << " (" << aux->tipo << ")\n";
       aux = aux->sig; // Avanza al siguiente nodo de la lista
     }
   }
 
-  pausa(); // Espera una acci�n del usuario antes de continuar (por ejemplo, presionar una tecla)
+  pausa(); // Espera una acción del usuario antes de continuar
 }
-
 
 // ============================================================
 // Funciones de pila
 // ============================================================
-// Funci�n que registra una nueva transacci�n (dep�sito o retiro) para un cliente
+
+// Función que registra una nueva transacción (depósito o retiro) para un cliente
 void registrarTransaccion() {
   limpiarPantalla(); // Limpia la pantalla antes de mostrar el formulario
-  mostrarBanner();   // Muestra el encabezado o t�tulo del sistema
-  cout << COLOR_MENU << "== REGISTRAR TRANSACCI�N ==" << COLOR_RESET << endl; // T�tulo de la secci�n
+  mostrarBanner();   // Muestra el encabezado del sistema
+  cout << COLOR_MENU << "== REGISTRAR TRANSACCIÓN ==" << COLOR_RESET << endl; // Título de la sección
 
   char dni[9]; // Variable para almacenar el DNI del cliente
   cout << "Ingrese DNI del cliente: ";
@@ -229,71 +232,69 @@ void registrarTransaccion() {
   Cliente *cli = buscarCliente(dni);
   if (cli == NULL) { // Si no se encuentra el cliente, muestra mensaje de error
     cout << COLOR_ERROR << "Cliente no encontrado.\n" << COLOR_RESET;
-    pausa(); // Pausa la ejecuci�n para que el usuario vea el mensaje
-    return;  // Sale de la funci�n sin registrar la transacci�n
-  }
-
-  Transaccion *nueva = new Transaccion(); // Crea din�micamente una nueva transacci�n
-  cout << "Tipo de transacci�nn (deposito/retiro): ";
-  cin >> nueva->tipo; // Solicita el tipo de transacci�n
-
-  cout << "Monto: ";
-  cin >> nueva->monto; // Solicita el monto de la transacci�n
-
-  // Verifica que el monto sea mayor que cero
-  if (nueva->monto <= 0) {
-    cout << COLOR_ERROR << "Monto inv�lido.\n" << COLOR_RESET;
-    delete nueva; // Libera la memoria de la transacci�n no v�lida
     pausa();
     return;
   }
 
-  // Inserta la transacci�n en la pila (al inicio)
+  Transaccion *nueva = new Transaccion(); // Crea dinámicamente una nueva transacción
+  cout << "Tipo de transacción (deposito/retiro): ";
+  cin >> nueva->tipo; // Solicita el tipo de transacción
+
+  cout << "Monto: ";
+  cin >> nueva->monto; // Solicita el monto de la transacción
+
+  // Verifica que el monto sea mayor que cero
+  if (nueva->monto <= 0) {
+    cout << COLOR_ERROR << "Monto inválido.\n" << COLOR_RESET;
+    delete nueva;
+    pausa();
+    return;
+  }
+
+  // Inserta la transacción en la pila (al inicio)
   nueva->sig = pilaTrans;
   pilaTrans = nueva;
 
-  // Mensaje de confirmaci�n al usuario
-  cout << COLOR_OK << "\nTransacci�n registrada correctamente.\n"
+  // Mensaje de confirmación
+  cout << COLOR_OK << "\nTransacción registrada correctamente.\n"
        << COLOR_RESET;
-  pausa(); // Espera que el usuario presione una tecla antes de continuar
+  pausa();
 }
 
-// Funci�n que muestra en pantalla el historial de transacciones registradas
+// Función que muestra en pantalla el historial de transacciones registradas
 void mostrarTransacciones() {
-  limpiarPantalla(); // Limpia la pantalla antes de mostrar la informaci�n
-  mostrarBanner();   // Muestra el encabezado o banner del sistema
-  cout << COLOR_MENU << "== HISTORIAL DE TRANSACCIONES ==" << COLOR_RESET
-       << endl; // T�tulo de la secci�n
+  limpiarPantalla(); // Limpia la pantalla antes de mostrar la información
+  mostrarBanner();   // Muestra el encabezado del sistema
+  cout << COLOR_MENU << "== HISTORIAL DE TRANSACCIONES ==" << COLOR_RESET << endl; // Título
 
-  // Verifica si la pila de transacciones est� vac�a
+  // Verifica si la pila de transacciones está vacía
   if (pilaTrans == NULL) {
-    // Si no hay transacciones registradas, muestra un mensaje informativo
     cout << COLOR_INFO << "No hay transacciones registradas.\n" << COLOR_RESET;
   } else {
-    // Recorre la pila de transacciones desde la m�s reciente hasta la m�s antigua
+    // Recorre la pila desde la más reciente a la más antigua
     Transaccion *aux = pilaTrans;
     while (aux != NULL) {
-      // Muestra el tipo de transacci�n y el monto correspondiente
       cout << aux->tipo << " - " << aux->monto << endl;
-      aux = aux->sig; // Avanza al siguiente elemento de la pila
+      aux = aux->sig;
     }
   }
 
-  pausa(); // Espera que el usuario presione una tecla antes de continuar
+  pausa();
 }
 
 // ============================================================
 // Funciones de cola de prioridad
 // ============================================================
-
+// Función que obtiene la prioridad de atención según el tipo de cliente
 int obtenerPrioridad(const char *tipo) {
   if (strcmp(tipo, "VIP") == 0)
-    return 1;
+    return 1;               // Prioridad más alta
   if (strcmp(tipo, "Preferencial") == 0)
-    return 2;
-  return 3;
+    return 2;               // Prioridad media
+  return 3;                 // Prioridad regular
 }
 
+// Función que agrega un cliente a la cola de prioridad
 void encolarCliente() {
   limpiarPantalla();
   mostrarBanner();
@@ -303,6 +304,7 @@ void encolarCliente() {
   cout << "Ingrese DNI: ";
   cin >> dni;
 
+  // Buscar al cliente registrado previamente
   Cliente *cli = buscarCliente(dni);
   if (cli == NULL) {
     cout << COLOR_ERROR << "Cliente no existe.\n" << COLOR_RESET;
@@ -310,19 +312,24 @@ void encolarCliente() {
     return;
   }
 
+  // Crear nodo nuevo para la cola
   NodoCola *nuevo = new NodoCola();
   strcpy(nuevo->dni, dni);
-  nuevo->prioridad = obtenerPrioridad(cli->tipo);
+  nuevo->prioridad = obtenerPrioridad(cli->tipo); // Obtener prioridad según tipo
   nuevo->sig = NULL;
 
+  // Insertar en la cola respetando la prioridad
   if (cola == NULL || nuevo->prioridad < cola->prioridad) {
+    // Insertar al inicio si es de mayor prioridad
     nuevo->sig = cola;
     cola = nuevo;
   } else {
+    // Buscar posición adecuada en la cola
     NodoCola *aux = cola;
     while (aux->sig != NULL && aux->sig->prioridad <= nuevo->prioridad)
       aux = aux->sig;
-    nuevo->sig = aux->sig;
+
+    nuevo->sig = aux->sig; // Insertar en la posición correcta
     aux->sig = nuevo;
   }
 
@@ -330,72 +337,76 @@ void encolarCliente() {
   pausa();
 }
 
+// Función que atiende (desencola) al cliente con mayor prioridad
 void atenderCliente() {
   limpiarPantalla();
   mostrarBanner();
   cout << COLOR_MENU << "== ATENDER CLIENTE ==" << COLOR_RESET << endl;
 
+  // Verificar si la cola está vacía
   if (cola == NULL) {
     cout << COLOR_INFO << "No hay clientes en cola.\n" << COLOR_RESET;
     pausa();
     return;
   }
 
+  // Atender al primer cliente de la cola
   cout << "Atendiendo a cliente con DNI: " << cola->dni << endl;
-  NodoCola *temp = cola;
-  cola = cola->sig;
-  delete temp;
 
-  cout << COLOR_OK << "Cliente atendido con �xito \n" << COLOR_RESET;
+  NodoCola *temp = cola; // Guardar referencia temporal
+  cola = cola->sig;      // Mover la cola al siguiente nodo
+  delete temp;           // Eliminar nodo atendido
+
+  cout << COLOR_OK << "Cliente atendido con éxito\n" << COLOR_RESET;
   pausa();
 }
 
+// Función que muestra todos los clientes actualmente en cola
 void mostrarCola() {
-  // Limpiar la pantalla antes de mostrar la informaci�n
   limpiarPantalla();
-  
-  // Mostrar un banner con informaci�n general
   mostrarBanner();
-  
-  // Mostrar t�tulo con color personalizado
-  cout << COLOR_MENU << "== COLA DE ATENCI�N ==" << COLOR_RESET << endl;
+  cout << COLOR_MENU << "== COLA DE ATENCIÓN ==" << COLOR_RESET << endl;
 
-  // Verificar si la cola est� vac�a
+  // Verificar si no hay clientes
   if (cola == NULL) {
-    // Si no hay clientes, mostrar un mensaje informativo
     cout << COLOR_INFO << "No hay clientes en cola.\n" << COLOR_RESET;
   } else {
-    // Si hay clientes en la cola, mostrar su DNI y prioridad
+    // Recorrer la cola e imprimir DNI + prioridad
     NodoCola *aux = cola;
     while (aux != NULL) {
-      cout << aux->dni << " (Prioridad " << aux->prioridad << ")\n";  // Mostrar cada cliente con su DNI y prioridad
-      aux = aux->sig;  // Avanzar al siguiente nodo de la cola
+      cout << aux->dni << " (Prioridad " << aux->prioridad << ")\n";
+      aux = aux->sig;
     }
   }
 
-  // Pausar para que el usuario pueda ver la informaci�n antes de continuar
   pausa();
 }
 
+// Función principal (menú del sistema)
 int main() {
-	setlocale(LC_CTYPE, "Spanish");
+  setlocale(LC_CTYPE, "Spanish");  // Soporte para caracteres especiales (ñ, acentos)
+
   int opcion;
   do {
     limpiarPantalla();
     mostrarBanner();
+
+    // Mostrar menú principal
     cout << COLOR_MENU;
     cout << "1. Registrar cliente\n";
     cout << "2. Encolar cliente\n";
     cout << "3. Atender cliente\n";
-    cout << "4. Registrar transacci�n\n";
+    cout << "4. Registrar transacción\n";
     cout << "5. Mostrar clientes\n";
     cout << "6. Mostrar cola\n";
     cout << "7. Mostrar transacciones\n";
     cout << "0. Salir\n";
     cout << COLOR_RESET;
-    cout << "\nSeleccione una opci�n: ";
+
+    cout << "\nSeleccione una opción: ";
     cin >> opcion;
 
+    // Procesar la opción seleccionada
     switch (opcion) {
     case 1:
       registrarCliente();
@@ -422,7 +433,8 @@ int main() {
       cout << COLOR_INFO << "\nSaliendo del sistema...\n" << COLOR_RESET;
       break;
     default:
-      cout << COLOR_ERROR << "\n Opci�n inv�lida. Intente nuevamente.\n"
+      // Manejo de errores por opción inválida
+      cout << COLOR_ERROR << "\nOpción inválida. Intente nuevamente.\n"
            << COLOR_RESET;
       pausa();
       break;
