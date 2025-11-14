@@ -1,0 +1,151 @@
+---
+title: "FINPROC - Sistema de Atencion Bancaria"
+subtitle: "Presentacion del Proyecto"
+author: "Equipo de Desarrollo"
+date: "2025"
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+    transition: fade
+    center: true
+    toc: true
+    code-line-numbers: true
+    incremental: true
+    width: 1280
+    height: 720
+---
+
+# Introduccion
+
+FINPROC es un sistema que simula el flujo de atencion en una entidad bancaria.  
+Utiliza tres estructuras de datos dinamicas:
+
+- Lista enlazada para clientes  
+- Cola de prioridad para atencion  
+- Pila para transacciones  
+
+El proyecto demuestra como estas estructuras se aplican a un caso real.
+
+---
+
+# Objetivos del Proyecto
+
+## Objetivo general
+Construir un sistema de atencion bancaria simple y funcional.
+
+## Objetivos especificos
+- Registrar clientes mediante lista enlazada  
+- Ordenar atencion mediante cola de prioridad  
+- Guardar transacciones en una pila  
+- Implementar persistencia basica  
+- Crear un menu claro y facil de usar  
+
+---
+
+# Arquitectura del Sistema
+
+El sistema esta dividido en tres modulos:
+
+---
+
+## Gestor de Clientes
+- Estructura: lista enlazada  
+- Datos guardados: DNI, nombre, tipo  
+- Operaciones: insertar, buscar, mostrar  
+
+---
+
+## Gestor de Atencion
+- Estructura: cola de prioridad  
+- Basado en tipo de cliente  
+- VIP = prioridad 1  
+- Preferencial = 2  
+- Regular = 3  
+
+---
+
+## Gestor de Transacciones
+- Estructura: pila  
+- Operaciones push y pop  
+- Se usa para historial  
+- Orden LIFO  
+
+---
+
+# Flujo General del Sistema
+
+1. Registrar cliente  
+2. Encolar cliente  
+3. Atender segun prioridad  
+4. Registrar transaccion  
+5. Guardar o cargar datos  
+6. Mostrar reportes  
+
+---
+
+# Persistencia
+
+El sistema guarda informacion en archivos simples:
+
+- clientes.txt  
+- cola.txt (opcional)  
+- transacciones.txt (opcional)  
+
+Permite cargar datos al inicio y guardarlos antes de salir.
+
+---
+
+# Codigo Base
+
+- Implementado en un unico archivo `main.cpp`  
+- No usa programacion avanzada  
+- Estructuras creadas manualmente  
+- Enfocado en claridad y funcionalidad  
+
+---
+
+# Docker
+
+El proyecto incluye un Dockerfile que:
+
+1. Copia el codigo fuente  
+2. Compila `main.cpp` dentro del contenedor  
+3. Ejecuta el menu principal de FINPROC  
+
+Permite ejecutar el sistema sin instalar nada en la maquina local.
+
+---
+
+# Resultados del Proyecto
+
+## Resultados principales
+- Sistema funcional por consola  
+- Estructuras dinamicas implementadas correctamente  
+- Persistencia basica operativa  
+- Flujo de atencion bancario simulado de forma simple  
+
+---
+
+## Conclusiones
+- FINPROC cumple los objetivos del curso  
+- Mantiene un codigo claro y entendible  
+- El uso de Docker le da portabilidad  
+- Las estructuras se aplican de forma directa al caso bancario  
+
+---
+
+# Trabajo Futuro
+
+- Mejorar persistencia usando JSON o base de datos  
+- Crear una interfaz grafica  
+- Generar reportes PDF desde el sistema  
+- Agregar pruebas automaticas  
+
+---
+
+# Fin de la Presentacion
+
+Gracias por su atencion.
+
+
