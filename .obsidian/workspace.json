@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "81f5ba20d12f7cd4",
+        "id": "a11a16edbacccd67",
         "type": "tabs",
         "children": [
           {
-            "id": "686aa696cb77371a",
+            "id": "5ccc39e4713ddbfe",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -193,12 +193,43 @@
       "obsidian-kanban:Create new board": false
     }
   },
-  "active": "686aa696cb77371a",
+  "active": "5ccc39e4713ddbfe",
   "lastOpenFiles": [
+    "evidence/commits/commit_template.md",
+    "assets/logos/logo.jpg",
+    "evidence/commits/commit_log.md",
+    "evidence/commits/commit_summary.md",
+    "docs/report/Figuras del informe técnico.md",
+    "docs/report/FINPROC – Informe Técnico.md",
     "notes/Explicacion detallada por carpetas.md",
-    "assets/icons",
-    "assets/screenshots",
-    "assets/logos",
-    "project"
+    "notes/Untitled.md",
+    "notes/ascii.md",
+    "tests/test.md",
+    "Manual de Usuario – FINPROC.md",
+    "tests/test_pila.cpp",
+    "tests/test_cola.cpp",
+    "tests/test_lista.cpp",
+    "slides/presentation.pdf",
+    "evidence/tasks/tasks.md",
+    "slides/presentation_files/libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css",
+    "slides/presentation_files/libs/quarto-html/light-border.css",
+    "slides/presentation_files/libs/quarto-html/tippy.css",
+    "slides/presentation_files/libs/quarto-html/tippy.umd.min.js",
+    "slides/presentation_files/libs/quarto-html/popper.min.js",
+    "slides/presentation_files/libs/quarto-html/tabby.min.js",
+    "slides/Untitled.md",
+    "evidence/tasks/sprint_tasks.md",
+    "evidence/tasks/Untitled.md",
+    "evidence/tasks/backlog.md",
+    "evidence/tasks/schedule.md",
+    "evidence/tasks/roles.md",
+    "docs/diagrams/Pseudocódigos del Proyecto FINPROC.md",
+    "docs/manual/docker_manual.md",
+    "docs/manual/user_manual.md",
+    "evidence/meetings/meeting_02.md",
+    "evidence/meetings/meeting_01.md",
+    "evidence/meetings/Sprint 1 Review.md",
+    "project/Kanban.md",
+    "project/backlog.md"
   ]
 }
