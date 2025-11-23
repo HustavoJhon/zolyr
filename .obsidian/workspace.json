@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
+                "file": "docs/report/FINPROC – Informe Tecnico.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README"
+              "title": "FINPROC – Informe Tecnico"
             }
           }
         ]
@@ -195,12 +195,13 @@
   },
   "active": "5ccc39e4713ddbfe",
   "lastOpenFiles": [
+    "docs/report/Figuras del informe tecnico.md",
+    "docs/report/FINPROC – Informe Tecnico.md",
+    "README.md",
     "evidence/commits/commit_template.md",
     "assets/logos/logo.jpg",
     "evidence/commits/commit_log.md",
     "evidence/commits/commit_summary.md",
-    "docs/report/Figuras del informe técnico.md",
-    "docs/report/FINPROC – Informe Técnico.md",
     "notes/Explicacion detallada por carpetas.md",
     "notes/Untitled.md",
     "notes/ascii.md",
